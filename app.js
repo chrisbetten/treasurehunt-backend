@@ -1,9 +1,12 @@
+require('dotenv').config();
 const cors = require('cors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const hunt = require('./hunts');
+const { getAllHunts, getAllLocationsFromHunt } = require('./queries');
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -20,8 +23,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-app.get('/hunt', (req, res) => {
-  res.send(hunt);
+app.get('/allhunts', (req, res) => {
+  getAllHunts(req, res);
 });
+
+app.get('/locations/:huntid', (req, res) => {
+  getAllLocationsFromHunt(req, res);
+})
+
 
 module.exports = app;
