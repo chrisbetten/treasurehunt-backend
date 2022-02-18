@@ -5,7 +5,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const hunt = require('./hunts');
-const { getAllHunts, getAllLocationsFromHunt } = require('./queries');
+const { getAllHunts, getAllLocationsFromHunt, getHunt } = require('./queries');
 
 
 var indexRouter = require('./routes/index');
@@ -29,6 +29,10 @@ app.get('/allhunts', (req, res) => {
 
 app.get('/locations/:huntid', (req, res) => {
   getAllLocationsFromHunt(req, res);
+})
+
+app.get('/hunt/:huntid', (req, res) => {
+  getHunt(req, res);
 })
 
 

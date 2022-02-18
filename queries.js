@@ -17,6 +17,18 @@ const getAllHunts = (request, response) => {
   );
 };
 
+const getHunt = (request, response) => {
+  pool.query(
+    "SELECT * FROM hunts WHERE hunt_id = $1", [request.params.huntid],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows[0]);
+    }
+  )
+};
+
 const getAllLocationsFromHunt = (request, response) => {
   pool.query(
     "SELECT * FROM locations WHERE hunt_id = $1;", [request.params.huntid],
@@ -31,5 +43,6 @@ const getAllLocationsFromHunt = (request, response) => {
 
 module.exports = {
   getAllHunts,
-  getAllLocationsFromHunt
+  getAllLocationsFromHunt,
+  getHunt
 };
