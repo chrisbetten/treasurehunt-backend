@@ -98,7 +98,7 @@ async function addNewPosts (request, response) {
         if (error) {
           throw error
         }
-        response.send("Posts added");
+        response.end("Posts added");
       }
     )
   }) 
