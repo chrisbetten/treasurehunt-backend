@@ -1,4 +1,5 @@
 const { response } = require("./app");
+const { hunt_id } = require("./hunts");
 
 const Pool = require("pg").Pool;
 
@@ -56,31 +57,36 @@ const createNewHunt = (request, response) => {
   )
 }
 
-const addNewPosts = (request, response) => {
+async const addNewPosts = (request, response) => {
   console.log(request.body);
   const huntName = request.body.huntName;
-  let huntId = "";
 
   console.log("TEST");
 
-  pool.query(
-    "SELECT hunt_id FROM hunts WHERE hunt_name = $1", [huntName],
-    (error, results) => {
-      if (error) {
-        throw error
-      }
-      console.log(results.rows)
-      huntId = results.rows;
-    }
-  )
-  console.log(huntId);
+  const allhunts =
+  await fetch('https://treasurehunt-backend.herokuapp.com/allhunts')
+  .then(res => res.json());
 
-  huntId = parseInt(huntId);
+  const hunt_id = allhunts[allhunts.length-1].hunt_id;
+
+  // pool.query(
+  //   "SELECT hunt_id FROM hunts WHERE hunt_name = $1", [huntName],
+  //   (error, results) => {
+  //     if (error) {
+  //       throw error
+  //     }
+  //     console.log(results.rows)
+  //     huntId = results.rows;
+  //   }
+  // )
+  console.log(hunt_id);
+
+  // huntId = parseInt(huntId);
 
   request.body.huntLocations.forEach(post => {
     pool.query(
       "INSERT INTO locations (hunt_id, post_name, lat, lng, radius, hint) VALUES ($1, $2, $3, $4, $5, $6)", 
-      [post.huntId, post.post_name, post.coordinates.lat, post.coordinates.lng, post.radius, post.hint],
+      [hunt_id, post.post_name, post.coordinates.lat, post.coordinates.lng, post.radius, post.hint],
       (error, results) => {
         if (error) {
           throw error
