@@ -61,7 +61,8 @@ const addNewPosts = (request, response) => {
   const postName = request.body.huntLocations.post_name;
   const postRadius = request.body.huntLocations.radius;
   const postHint = request.body.huntLocations.hint;
-  const postCoordinates = request.body.huntLocations.coordinates;
+  const postCoordinatesLat = request.body.huntLocations.coordinates.lat;
+  const postCoordinatesLng = request.body.huntLocations.coordinates.lng;
   const postIndex = request.body.huntLocations.index;
   let huntId = "";
 
@@ -82,7 +83,7 @@ const addNewPosts = (request, response) => {
 
   pool.query(
     "INSERT INTO locations (hunt_id, post_id, post_name, lat, lng, radius, hint) VALUES ($1, $2, $3, $4, $5, $6, $7)", 
-    [huntId, postIndex, postName, postCoordinates.lat, postCoordinates.lng, postRadius, postHint],
+    [huntId, postIndex, postName, postCoordinatesLat, postCoordinatesLng, postRadius, postHint],
     (error, results) => {
       if (error) {
         throw error
