@@ -1,3 +1,5 @@
+const { response } = require("./app");
+
 const Pool = require("pg").Pool;
 
 const pool = new Pool({
@@ -54,9 +56,43 @@ const createNewHunt = (request, response) => {
   )
 }
 
+const addNewPosts = (request, response) => {
+  const huntName = request.body.huntName;
+  const postName = request.body.huntLocations.post_name;
+  const postRadius = request.body.huntLocations.radius;
+  const postHint = request.body.huntLocations.hint;
+  const postCoordinates = request.body.huntLocations.coordinates;
+  const postIndex = request.body.huntLocations.index;
+  let huntId = "";
+
+  pool.query(
+    "SELECT hunt_id FROM hunts WHERE hunt_name = $1", [huntName],
+    (error, results) => {
+      if (error) {
+        throw error
+      }
+      huntId = results.rows[0]
+    }
+  )
+
+  huntId = parseInt(huntId);
+
+  pool.query(
+    "INSERT INTO locations (hunt_id, post_id, post_name, lat, lng, radius, hint) VALUES ($1, $2, $3, $4, $5, $6, $7)", 
+    [huntId, postIndex, postName, postCoordinates.lat, postCoordinates.lng, postRadius, postHint],
+    (error, results) => {
+      if (error) {
+        throw error
+      }
+      response.status(200).send("Posts added")
+    }
+  )
+}
+
 module.exports = {
   getAllHunts,
   getAllLocationsFromHunt,
   getHunt,
-  createNewHunt
+  createNewHunt,
+  addNewPosts,
 };
