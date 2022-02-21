@@ -57,7 +57,7 @@ const createNewHunt = (request, response) => {
   )
 }
 
-async const addNewPosts = (request, response) => {
+async function addNewPosts (request, response) {
   console.log(request.body);
   const huntName = request.body.huntName;
 
