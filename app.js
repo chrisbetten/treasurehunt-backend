@@ -5,7 +5,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const hunt = require('./hunts');
-const { getAllHunts, getAllLocationsFromHunt, getHunt } = require('./queries');
+const { getAllHunts, getAllLocationsFromHunt, getHunt, createNewHunt } = require('./queries');
 
 
 var indexRouter = require('./routes/index');
@@ -35,5 +35,8 @@ app.get('/hunt/:huntid', (req, res) => {
   getHunt(req, res);
 })
 
+app.post('/allhunts', (req, res) => {
+  createNewHunt(req, res);
+})
 
 module.exports = app;

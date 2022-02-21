@@ -41,8 +41,22 @@ const getAllLocationsFromHunt = (request, response) => {
   );
 };
 
+const createNewHunt = (request, response) => {
+  const huntName = request.body.newHuntName;
+  pool.query(
+    "INSERT INTO hunts (hunt_name) VALUES ($1)", [huntName],
+    (error, results) => {
+      if (error) {
+        throw error
+      }
+      response.status(200).send('Hunt created')
+    }
+  )
+}
+
 module.exports = {
   getAllHunts,
   getAllLocationsFromHunt,
-  getHunt
+  getHunt,
+  createNewHunt
 };
