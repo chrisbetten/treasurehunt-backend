@@ -70,9 +70,10 @@ const addNewPosts = (request, response) => {
         throw error
       }
       console.log(results.rows)
-      huntId = results.rows[0]
+      huntId = results.rows;
     }
   )
+  console.log(huntId);
 
   huntId = parseInt(huntId);
 
