@@ -57,6 +57,7 @@ const createNewHunt = (request, response) => {
 }
 
 const addNewPosts = (request, response) => {
+  console.log(request.body);
   const huntName = request.body.huntName;
   const postName = request.body.huntLocations.post_name;
   const postRadius = request.body.huntLocations.radius;
