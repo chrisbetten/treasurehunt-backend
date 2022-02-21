@@ -59,12 +59,6 @@ const createNewHunt = (request, response) => {
 const addNewPosts = (request, response) => {
   console.log(request.body);
   const huntName = request.body.huntName;
-  const postName = request.body.huntLocations.post_name;
-  const postRadius = request.body.huntLocations.radius;
-  const postHint = request.body.huntLocations.hint;
-  const postCoordinatesLat = request.body.huntLocations.coordinates.lat;
-  const postCoordinatesLng = request.body.huntLocations.coordinates.lng;
-  const postIndex = request.body.huntLocations.index;
   let huntId = "";
 
   console.log("TEST");
@@ -82,16 +76,18 @@ const addNewPosts = (request, response) => {
 
   huntId = parseInt(huntId);
 
-  pool.query(
-    "INSERT INTO locations (hunt_id, post_id, post_name, lat, lng, radius, hint) VALUES ($1, $2, $3, $4, $5, $6, $7)", 
-    [huntId, postIndex, postName, postCoordinatesLat, postCoordinatesLng, postRadius, postHint],
-    (error, results) => {
-      if (error) {
-        throw error
+  request.body.huntLocations.forEach(post => {
+    pool.query(
+      "INSERT INTO locations (hunt_id, post_id, post_name, lat, lng, radius, hint) VALUES ($1, $2, $3, $4, $5, $6, $7)", 
+      [post.huntId, post.index, post.post_name, post.coordinates[0].lat, post.coordinates[0].lng, post.radius, post.hint],
+      (error, results) => {
+        if (error) {
+          throw error
+        }
+        response.status(200).send("Posts added")
       }
-      response.status(200).send("Posts added")
-    }
-  )
+    )
+  }) 
 }
 
 module.exports = {
