@@ -57,17 +57,24 @@ const createNewHunt = (request, response) => {
   )
 }
 
+async function getHuntIdByName (name) {
+  return await pool.query("SELECT hunt_id FROM hunts WHERE hunt_name = $1", [name])
+  .then(res => res.rows[0])
+}
+
 async function addNewPosts (request, response) {
   console.log(request.body);
   const huntName = request.body.huntName;
 
+  const hunt_id = await getHuntIdByName(huntName)
+
   console.log("TEST");
 
-  const allhunts =
-  await fetch('https://treasurehunt-backend.herokuapp.com/allhunts')
-  .then(res => res.json());
+  // const allhunts =
+  // await fetch('https://treasurehunt-backend.herokuapp.com/allhunts')
+  // .then(res => res.json());
 
-  const hunt_id = allhunts[allhunts.length-1].hunt_id;
+  // const hunt_id = allhunts[allhunts.length-1].hunt_id;
 
   // pool.query(
   //   "SELECT hunt_id FROM hunts WHERE hunt_name = $1", [huntName],
