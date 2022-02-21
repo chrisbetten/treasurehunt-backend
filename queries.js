@@ -65,12 +65,15 @@ const addNewPosts = (request, response) => {
   const postIndex = request.body.huntLocations.index;
   let huntId = "";
 
+  console.log("TEST");
+
   pool.query(
     "SELECT hunt_id FROM hunts WHERE hunt_name = $1", [huntName],
     (error, results) => {
       if (error) {
         throw error
       }
+      console.log(results.rows)
       huntId = results.rows[0]
     }
   )
