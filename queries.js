@@ -86,14 +86,14 @@ async function addNewPosts (request, response) {
   //     huntId = results.rows;
   //   }
   // )
-  console.log(hunt_id);
+  console.log(hunt_id.hunt_id);
 
   // huntId = parseInt(huntId);
 
   request.body.huntLocations.forEach(post => {
     pool.query(
       "INSERT INTO locations (hunt_id, post_name, lat, lng, radius, hint) VALUES ($1, $2, $3, $4, $5, $6)", 
-      [hunt_id, post.post_name, post.coordinates.lat, post.coordinates.lng, post.radius, post.hint],
+      [hunt_id.hunt_id, post.post_name, post.coordinates.lat, post.coordinates.lng, post.radius, post.hint],
       (error, results) => {
         if (error) {
           throw error
