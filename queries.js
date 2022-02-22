@@ -53,9 +53,11 @@ const createNewHunt = (request, response) => {
       if (error) {
         throw error
       }
-      console.log(results.rows[0])
+      console.log(results.rows[0]);
+      return results.rows[0];
     }
   )
+  console.log(invalidHuntName);
 
   if(!invalidHuntName.hunt_name) {
     pool.query(
