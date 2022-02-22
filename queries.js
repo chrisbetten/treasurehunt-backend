@@ -56,15 +56,20 @@ const createNewHunt = (request, response) => {
       console.log("Results.rows: ", results.rows[0]);
 
     if(!results.rows[0]) {
-      pool.query(
-        "INSERT INTO hunts (hunt_name) VALUES ($1)", [huntName],
-        (error, results) => {
-          if (error) {
-            throw error
+      try {
+        pool.query(
+          "INSERT INTO hunts (hunt_name) VALUES ($1)", [huntName],
+          (error, results) => {
+            if (error) {
+              throw error
+            }
           }
-          results.status(200).end('Hunt created')
-        }
-      )
+        )
+      response.status(200).end('Hunt created')
+      }
+    catch (err) {
+      response.satus(500).end("Error ", err);
+    }
     }
     response.status(409).end('HuntName already taken')
     }
