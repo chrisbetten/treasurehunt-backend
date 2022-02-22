@@ -93,7 +93,7 @@ async function addNewPosts (request, response) {
   //     huntId = results.rows;
   //   }
   // )
-  console.log(hunt_id.hunt_id);
+  console.log(typeof hunt_id.hunt_id);
 
   const temp = await addFinalMessge(hunt_id.hunt_id, request.body.finalMessage)
 
