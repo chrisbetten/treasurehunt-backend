@@ -81,7 +81,7 @@ async function addNewPosts (request, response) {
 
   request.body.huntLocations.forEach(post => {
     pool.query(
-      "INSERT INTO locations (hunt_id, post_id, post_name, lat, lng, radius, hint) VALUES ($1, $2, $3, $4, $5, $6)", 
+      "INSERT INTO locations (hunt_id, post_id, post_name, lat, lng, radius, hint) VALUES ($1, $2, $3, $4, $5, $6, $7)", 
       [hunt_id.hunt_id, post.index, post.post_name, post.coordinates.lat, post.coordinates.lng, post.radius, post.hint],
       (error, results) => {
         if (error) {
