@@ -64,11 +64,11 @@ const createNewHunt = (request, response) => {
         if (error) {
           throw error
         }
-        response.status(200).send('Hunt created')
+        response.status(200).end('Hunt created')
       }
     )
   }
-  response.status(409).send('HuntName already taken')
+  response.status(409).end('HuntName already taken')
 }
 
 async function getHuntIdByName (name) {
