@@ -53,7 +53,7 @@ const createNewHunt = (request, response) => {
       if (error) {
         throw error
       }
-      console.log(results.rows[0].hunt_name)
+      return results.rows[0].hunt_name
     }
   )
 
