@@ -71,8 +71,9 @@ const createNewHunt = (request, response) => {
       response.satus(500).end("Error ", err);
     }
     }
-    response.status(409).end('HuntName already taken')
-    }
+    else {
+      response.status(409).end('HuntName already taken')
+    }}
   )
 }
 
