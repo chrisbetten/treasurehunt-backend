@@ -62,6 +62,12 @@ async function getHuntIdByName (name) {
   .then(res => res.rows[0])
 }
 
+async function addFinalMessge (id, finalMessage) {
+  pool.query(
+    "INSERT INTO hunts(finalMessage) WHERE hunt_id = $1 VALUES ($2)", [id, finalMessage]
+  )
+}
+
 async function addNewPosts (request, response) {
   console.log(request.body);
   const huntName = request.body.huntName;
@@ -89,14 +95,7 @@ async function addNewPosts (request, response) {
   // )
   console.log(hunt_id.hunt_id);
 
-  pool.query(
-    "INSERT INTO hunts(finalMessage) WHERE hunt_id = $1 VALUES ($2)", [hunt_id.hunt_id, finalMessage],
-    (error, results) => {
-      if (error) {
-        throw error
-      }
-    }
-  )
+  const temp = await addFinalMessge(hunt_id.hunt_id, request.body.finalMessage)
 
   request.body.huntLocations.forEach(post => {
     pool.query(
