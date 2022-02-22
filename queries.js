@@ -64,7 +64,7 @@ async function getHuntIdByName (name) {
 
 async function addFinalMessge (id, finalMessage) {
   pool.query(
-    "INSERT INTO hunts(finalMessage) WHERE hunt_id = $1 VALUES ($2)", [id, finalMessage]
+    "INSERT INTO hunts(finalMessage) VALUES ($2) WHERE hunt_id = $1", [id, finalMessage]
   )
 }
 
