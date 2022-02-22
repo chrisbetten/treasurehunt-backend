@@ -46,7 +46,7 @@ const getAllLocationsFromHunt = (request, response) => {
 
 const createNewHunt = (request, response) => {
   const huntName = request.body.newHuntName;
-  const invalidHuntName;
+  const invalidHuntName = {};
   
   pool.query(
     "SELECT hunt_name FROM hunts WHERE hunt_name = $1", [huntName],
