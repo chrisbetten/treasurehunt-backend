@@ -64,7 +64,7 @@ async function getHuntIdByName (name) {
 
 async function addFinalMessage (id, finalMessage) {
   pool.query(
-    "UPDATE hunts SET finalMessage = $1 WHERE hunt_id = $2", [finalMessage, id]
+    "UPDATE hunts SET finalmessage = $1 WHERE hunt_id = $2", [finalMessage, id]
   )
 }
 
