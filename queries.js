@@ -62,11 +62,6 @@ async function getHuntIdByName (name) {
   .then(res => res.rows[0])
 }
 
-// async function addFinalMessage (id, finalMessage) {
-//   pool.query(
-//     "UPDATE hunts SET finalmessage = $1 WHERE hunt_id = $2", [finalMessage, id]
-//   )
-// }
 
 async function addNewPosts (request, response) {
   console.log(request.body);
@@ -74,28 +69,6 @@ async function addNewPosts (request, response) {
   const finalMessage = request.body.finalMessage;
 
   const hunt_id = await getHuntIdByName(huntName)
-
-  console.log("TEST");
-
-  // const allhunts =
-  // await fetch('https://treasurehunt-backend.herokuapp.com/allhunts')
-  // .then(res => res.json());
-
-  // const hunt_id = allhunts[allhunts.length-1].hunt_id;
-
-  // pool.query(
-  //   "SELECT hunt_id FROM hunts WHERE hunt_name = $1", [huntName],
-  //   (error, results) => {
-  //     if (error) {
-  //       throw error
-  //     }
-  //     console.log(results.rows)
-  //     huntId = results.rows;
-  //   }
-  // )
-  console.log(hunt_id.hunt_id);
-  console.log(finalMessage);
-  // const temp = await addFinalMessage(hunt_id.hunt_id, finalMessage)
 
   pool.query(
     "UPDATE hunts SET finalmessage = $1 WHERE hunt_id = $2", [finalMessage, hunt_id.hunt_id],
@@ -108,8 +81,8 @@ async function addNewPosts (request, response) {
 
   request.body.huntLocations.forEach(post => {
     pool.query(
-      "INSERT INTO locations (hunt_id, post_name, lat, lng, radius, hint) VALUES ($1, $2, $3, $4, $5, $6)", 
-      [hunt_id.hunt_id, post.post_name, post.coordinates.lat, post.coordinates.lng, post.radius, post.hint],
+      "INSERT INTO locations (hunt_id, post_id, post_name, lat, lng, radius, hint) VALUES ($1, $2, $3, $4, $5, $6)", 
+      [hunt_id.hunt_id, post.index, post.post_name, post.coordinates.lat, post.coordinates.lng, post.radius, post.hint],
       (error, results) => {
         if (error) {
           throw error
