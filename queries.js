@@ -53,11 +53,11 @@ const createNewHunt = (request, response) => {
       if (error) {
         throw error
       }
-      return results.rows[0].hunt_name
+      return results.rows[0]
     }
   )
 
-  if(!invalidHuntName) {
+  if(!invalidHuntName.hunt_name) {
     pool.query(
       "INSERT INTO hunts (hunt_name) VALUES ($1)", [huntName],
       (error, results) => {
