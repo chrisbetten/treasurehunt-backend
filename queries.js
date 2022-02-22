@@ -90,14 +90,14 @@ async function addNewPosts (request, response) {
   console.log(hunt_id.hunt_id);
 
   pool.query(
-    "INSERT INTO hunts (finalMessage) WHERE hunt_id=$1 VALUES ($2)", [hunt_id.hunt_id, finalMessage],
+    "INSERT INTO hunts(finalMessage) WHERE hunt_id = $1 VALUES ($2)", [hunt_id.hunt_id, finalMessage],
     (error, results) => {
       if (error) {
         throw error
       }
     }
   )
-  
+
   request.body.huntLocations.forEach(post => {
     pool.query(
       "INSERT INTO locations (hunt_id, post_name, lat, lng, radius, hint) VALUES ($1, $2, $3, $4, $5, $6)", 
