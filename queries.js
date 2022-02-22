@@ -94,7 +94,7 @@ async function addNewPosts (request, response) {
   //   }
   // )
   console.log(hunt_id.hunt_id);
-
+  console.log(finalMessage);
   // const temp = await addFinalMessage(hunt_id.hunt_id, finalMessage)
 
   pool.query(
