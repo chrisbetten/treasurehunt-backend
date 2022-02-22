@@ -46,7 +46,6 @@ const getAllLocationsFromHunt = (request, response) => {
 
 const createNewHunt = (request, response) => {
   const huntName = request.body.newHuntName;
-  let invalidHuntName = {};
   
   pool.query(
     "SELECT hunt_name FROM hunts WHERE hunt_name = $1", [huntName],
@@ -55,23 +54,21 @@ const createNewHunt = (request, response) => {
         throw error
       }
       console.log("Results.rows: ", results.rows[0]);
-      return invalidHuntName = results.rows[0]
+
+    if(!results.rows[0]) {
+      pool.query(
+        "INSERT INTO hunts (hunt_name) VALUES ($1)", [huntName],
+        (error, results) => {
+          if (error) {
+            throw error
+          }
+          response.status(200).end('Hunt created')
+        }
+      )
+    }
+    response.status(409).end('HuntName already taken')
     }
   )
-  console.log("invalidHuntName: ", invalidHuntName);
-
-  if(!invalidHuntName) {
-    pool.query(
-      "INSERT INTO hunts (hunt_name) VALUES ($1)", [huntName],
-      (error, results) => {
-        if (error) {
-          throw error
-        }
-        response.status(200).end('Hunt created')
-      }
-    )
-  }
-  response.status(409).end('HuntName already taken')
 }
 
 async function getHuntIdByName (name) {
