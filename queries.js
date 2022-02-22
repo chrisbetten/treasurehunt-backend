@@ -46,20 +46,21 @@ const getAllLocationsFromHunt = (request, response) => {
 
 const createNewHunt = (request, response) => {
   const huntName = request.body.newHuntName;
-
-  const invalidHuntName = pool.query(
+  const invalidHuntName;
+  
+  pool.query(
     "SELECT hunt_name FROM hunts WHERE hunt_name = $1", [huntName],
     (error, results) => {
       if (error) {
         throw error
       }
-      console.log(results.rows[0]);
-      return results.rows[0];
+      console.log("Results.rows: ", results.rows[0]);
+      return invalidHuntName = results.rows[0]
     }
   )
-  console.log(invalidHuntName);
+  console.log("invalidHuntName: ", invalidHuntName);
 
-  if(!invalidHuntName.hunt_name) {
+  if(!invalidHuntName) {
     pool.query(
       "INSERT INTO hunts (hunt_name) VALUES ($1)", [huntName],
       (error, results) => {
