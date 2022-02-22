@@ -62,7 +62,7 @@ const createNewHunt = (request, response) => {
           if (error) {
             throw error
           }
-          response.status(200).end('Hunt created')
+          results.status(200).end('Hunt created')
         }
       )
     }
