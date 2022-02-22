@@ -46,6 +46,17 @@ const getAllLocationsFromHunt = (request, response) => {
 
 const createNewHunt = (request, response) => {
   const huntName = request.body.newHuntName;
+
+  let test = pool.query(
+    "SELECT hunt_name FROM hunts WHERE hunt_name = $1", [huntName],
+    (error, results) => {
+      if (error) {
+        throw error
+      }
+      console.log(results.rows[0])
+    }
+  )
+
   pool.query(
     "INSERT INTO hunts (hunt_name) VALUES ($1)", [huntName],
     (error, results) => {
