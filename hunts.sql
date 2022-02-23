@@ -1,6 +1,7 @@
 CREATE TABLE hunts (
   hunt_id SERIAL NOT NULL PRIMARY KEY,
   hunt_name VARCHAR(255) NOT NULL,
+  created_at VARCHAR(25),
   finalMessage VARCHAR(500)
 );
 

@@ -1,3 +1,4 @@
+const API_URL = process.env.REACT_APP_HUNT_API_URL;
 const { response } = require("./app");
 const { hunt_id } = require("./hunts");
 
@@ -82,16 +83,16 @@ async function getHuntIdByName (name) {
   .then(res => res.rows[0])
 }
 
-
 async function addNewPosts (request, response) {
   console.log(request.body);
   const huntName = request.body.huntName;
+  const createdAt = request.body.createdAt;
   const finalMessage = request.body.finalMessage;
 
   const hunt_id = await getHuntIdByName(huntName)
 
   pool.query(
-    "UPDATE hunts SET finalmessage = $1 WHERE hunt_id = $2", [finalMessage, hunt_id.hunt_id],
+    "UPDATE hunts SET created_at = $1, finalmessage = $2 WHERE hunt_id = $3", [createdAt, finalMessage, hunt_id.hunt_id],
     (error, results) => {
       if (error) {
         throw error
@@ -113,10 +114,47 @@ async function addNewPosts (request, response) {
   })
 }
 
+// async function getHuntIdByNameTwo () {
+//   return await fetch(`${API_URL/allhunts}`)
+//   .then(res => res.json())
+// }
+
+// async function addNewPostsTwo (request, response) {
+//   console.log(request.body);
+//   const huntName = request.body.huntName;
+//   const finalMessage = request.body.finalMessage;
+
+//   const data = await getHuntIdByNameTwo(huntName);
+//   const hunt_id = data[data.length-1].hunt_id;
+
+//   pool.query(
+//     "UPDATE hunts SET finalmessage = $1 WHERE hunt_id = $2", [finalMessage, hunt_id],
+//     (error, results) => {
+//       if (error) {
+//         throw error
+//       }
+//     }
+//   )
+
+//   request.body.huntLocations.forEach(post => {
+//     pool.query(
+//       "INSERT INTO locations (hunt_id, post_id, post_name, lat, lng, radius, hint) VALUES ($1, $2, $3, $4, $5, $6, $7)", 
+//       [hunt_id, post.index, post.post_name, post.coordinates.lat, post.coordinates.lng, post.radius, post.hint],
+//       (error, results) => {
+//         if (error) {
+//           throw error
+//         }
+//         response.end("Posts added");
+//       }
+//     )
+//   })
+// }
+
 module.exports = {
   getAllHunts,
   getAllLocationsFromHunt,
   getHunt,
   createNewHunt,
   addNewPosts,
+  // addNewPostsTwo,
 };

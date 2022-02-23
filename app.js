@@ -5,7 +5,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const hunt = require('./hunts');
-const { getAllHunts, getAllLocationsFromHunt, getHunt, createNewHunt, addNewPosts } = require('./queries');
+const { getAllHunts, getAllLocationsFromHunt, getHunt, createNewHunt, addNewPosts, addNewPostsTwo } = require('./queries');
 
 
 var indexRouter = require('./routes/index');
